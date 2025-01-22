@@ -93,6 +93,9 @@ class ReportsController extends Controller
 
     public function live_results() {
         $registered_voters = RegisteredVoter::query()->get()->count();
+        if ($registered_voters < 1) {
+            $registered_voters = 1;
+        }
         $voted_voters = VotedVoter::query()->get()->count();
         $voted = json_decode( json_encode(DB::table('voted_voters')->get('voter_id')), true);
         $voters = RegisteredVoter::query()->whereNotIn('voter_id', $voted)->latest()->get();
@@ -117,6 +120,9 @@ class ReportsController extends Controller
 
     public function live_results_component() {
         $registered_voters = RegisteredVoter::query()->get()->count();
+        if ($registered_voters < 1) {
+            $registered_voters = 1;
+        }
         $voted_voters = VotedVoter::query()->get()->count();
         $voted = json_decode( json_encode(DB::table('voted_voters')->get('voter_id')), true);
         $voters = RegisteredVoter::query()->whereNotIn('voter_id', $voted)->latest()->get();
